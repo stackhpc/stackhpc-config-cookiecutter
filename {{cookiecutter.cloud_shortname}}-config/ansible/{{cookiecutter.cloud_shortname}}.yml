@@ -1,0 +1,6 @@
+---
+# Top level playbook that includes all others.
+- include: {{cookiecutter.cloud_shortname}}-project.yml
+- include: {{cookiecutter.cloud_shortname}}-networks.yml
+- include: {{cookiecutter.cloud_shortname}}-flavors.yml
+- include: {{cookiecutter.cloud_shortname}}-images.yml

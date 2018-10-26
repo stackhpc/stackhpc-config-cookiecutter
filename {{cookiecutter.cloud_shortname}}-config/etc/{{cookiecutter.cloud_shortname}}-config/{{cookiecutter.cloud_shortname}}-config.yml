@@ -1,0 +1,507 @@
+---
+###############################################################################
+# Configuration of OpenStack user environment for {{cookiecutter.cloud_longname}}.
+
+# Path to create virtualenv in which to install python dependencies.
+#{{cookiecutter.cloud_shortname}}_venv:
+
+# List of OpenStack projects. Format is as required by the stackhpc.os-projects
+# role.
+{{cookiecutter.cloud_shortname}}_projects:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project }}"
+
+# Definition of the {{cookiecutter.cloud_shortname}} demo project. Format is as required by the
+# stackhpc.os-projects role.
+{{cookiecutter.cloud_shortname}}_demo_project:
+  name: demo
+  description: {{cookiecutter.cloud_longname}} demo project
+  project_domain: default
+  user_domain: default
+  users: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_resops_users }}"
+  quotas: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_unlimited_quotas }}"
+
+# List of users in the {{cookiecutter.cloud_shortname}} ResOps team. Format is as required by the
+# stackhpc.os-projects role.
+{{cookiecutter.cloud_shortname}}_resops_users:
+  - name: hpcgodd1
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      37386366333266356464663865316538653361313830633036626436613432636361386463373139
+      3530303436393137613263656530333465313861316336330a623562323161326330383237303061
+      63663266383362336361666134313364653037623430363638363333346435366230613135623763
+      3063346333353831650a373138346633663663343638656163346533663735626133306438363066
+      6638
+    roles: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_admin_roles }}"
+
+# List of roles to apply to admin users in the {{cookiecutter.cloud_shortname}} demo project.
+{{cookiecutter.cloud_shortname}}_admin_roles:
+  - admin
+  - heat_stack_owner
+  - monasca-user
+
+# List of roles to apply to regular users in the {{cookiecutter.cloud_shortname}} demo project.
+{{cookiecutter.cloud_shortname}}_user_roles:
+  - heat_stack_owner
+  - observer
+  - monasca-read-only-user
+
+# Dict of quotas to set for projects with unlimited resource quotas
+{{cookiecutter.cloud_shortname}}_unlimited_quotas:
+  cores: -1
+  floating_ips: -1
+  injected_files: -1
+  injected_file_size: -1
+  instances: -1
+  key_pairs: -1
+  fixed_ips: -1
+  ram: -1
+  secgroup_rules: -1
+  secgroups: -1
+
+###############################################################################
+# Configuration of networks, subnets and routers for {{cookiecutter.cloud_shortname}}.
+
+# List of networks in the {{cookiecutter.cloud_shortname}} system. Format is as required by the
+# stackhpc.os-networks role.
+{{cookiecutter.cloud_shortname}}_networks:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_external }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_inspection }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_storage }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vlan }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vxlan }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_hs_vlan }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_provider }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_infiniband }}"
+
+# {{cookiecutter.cloud_shortname}} external network name.
+{{cookiecutter.cloud_shortname}}_network_external_name: "external"
+
+# {{cookiecutter.cloud_shortname}} external network.
+{{cookiecutter.cloud_shortname}}_network_external:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_external_name }}"
+  project: "admin"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet1"
+  provider_segmentation_id: 60
+  shared: true
+  external: true
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_external }}"
+
+# {{cookiecutter.cloud_shortname}} external subnet.
+{{cookiecutter.cloud_shortname}}_subnet_external:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_external_name }}"
+  project: "admin"
+  cidr: "10.60.0.0/16"
+  gateway_ip: "10.60.255.1"
+  allocation_pool_start: "10.60.2.0"
+  allocation_pool_end: "10.60.5.255"
+  # TODO: Add host route to storage subnet.
+
+# {{cookiecutter.cloud_shortname}} internal network name.
+{{cookiecutter.cloud_shortname}}_network_internal_name: "internal"
+
+# {{cookiecutter.cloud_shortname}} internal network.
+{{cookiecutter.cloud_shortname}}_network_internal:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+  project: "admin"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet1"
+  provider_segmentation_id: 65
+  shared: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_internal }}"
+
+# {{cookiecutter.cloud_shortname}} internal subnet.
+{{cookiecutter.cloud_shortname}}_subnet_internal:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+  project: "admin"
+  cidr: "10.65.0.0/16"
+  enable_dhcp: false
+  allocation_pool_start: "10.65.0.2"
+  allocation_pool_end: "10.65.0.4"
+
+# {{cookiecutter.cloud_shortname}} inspection network name.
+{{cookiecutter.cloud_shortname}}_network_inspection_name: "inspection-net"
+
+# {{cookiecutter.cloud_shortname}} inspection network.
+{{cookiecutter.cloud_shortname}}_network_inspection:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_inspection_name }}"
+  project: "admin"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet1"
+  provider_segmentation_id: 71
+  shared: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_inspection }}"
+
+# {{cookiecutter.cloud_shortname}} inspection subnet.
+{{cookiecutter.cloud_shortname}}_subnet_inspection:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_inspection_name }}"
+  project: "admin"
+  cidr: "10.71.0.0/16"
+  enable_dhcp: false
+  allocation_pool_start: "10.71.0.1"
+  allocation_pool_end: "10.71.0.1"
+
+# {{cookiecutter.cloud_shortname}} storage network name.
+{{cookiecutter.cloud_shortname}}_network_storage_name: "storage"
+
+# {{cookiecutter.cloud_shortname}} storage network.
+{{cookiecutter.cloud_shortname}}_network_storage:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_storage_name }}"
+  project: "admin"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet1"
+  provider_segmentation_id: 66
+  shared: true
+  external: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_storage }}"
+
+# {{cookiecutter.cloud_shortname}} storage subnet.
+{{cookiecutter.cloud_shortname}}_subnet_storage:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_storage_name }}"
+  project: "admin"
+  cidr: "10.66.0.0/16"
+  allocation_pool_start: "10.66.2.0"
+  allocation_pool_end: "10.66.2.255"
+
+# {{cookiecutter.cloud_shortname}} demo VLAN network name.
+{{cookiecutter.cloud_shortname}}_network_demo_vlan_name: "demo-vlan"
+
+# {{cookiecutter.cloud_shortname}} demo VLAN network.
+{{cookiecutter.cloud_shortname}}_network_demo_vlan:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vlan_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet1"
+  shared: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_demo_vlan }}"
+
+# {{cookiecutter.cloud_shortname}} demo VLAN subnet.
+{{cookiecutter.cloud_shortname}}_subnet_demo_vlan:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vlan_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  cidr: "10.0.0.0/24"
+  gateway_ip: "10.0.0.1"
+  allocation_pool_start: "10.0.0.2"
+  allocation_pool_end: "10.0.0.254"
+
+# {{cookiecutter.cloud_shortname}} demo VXLAN network name.
+{{cookiecutter.cloud_shortname}}_network_demo_vxlan_name: "demo-vxlan"
+
+# {{cookiecutter.cloud_shortname}} demo VXLAN network.
+{{cookiecutter.cloud_shortname}}_network_demo_vxlan:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vxlan_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  provider_network_type: "vxlan"
+  shared: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_demo_vxlan }}"
+
+# {{cookiecutter.cloud_shortname}} demo VXLAN subnet.
+{{cookiecutter.cloud_shortname}}_subnet_demo_vxlan:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vxlan_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  cidr: "10.1.0.0/24"
+  gateway_ip: "10.1.0.1"
+  allocation_pool_start: "10.1.0.2"
+  allocation_pool_end: "10.1.0.254"
+
+# {{cookiecutter.cloud_shortname}} demo provider VLAN network name.
+{{cookiecutter.cloud_shortname}}_network_demo_provider_name: "demo-provider"
+
+# {{cookiecutter.cloud_shortname}} demo provider VLAN
+{{cookiecutter.cloud_shortname}}_network_demo_provider:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_provider_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet1"
+  provider_segmentation_id: 100
+  shared: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_demo_provider }}"
+
+# {{cookiecutter.cloud_shortname}} demo provider VLAN subnet
+{{cookiecutter.cloud_shortname}}_subnet_demo_provider:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_provider_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  cidr: "10.100.0.0/16"
+  gateway_ip: "10.100.0.1"
+  allocation_pool_start: "10.100.1.0"
+  allocation_pool_end: "10.100.99.255"
+  host_routes:
+    - destination: "10.66.0.0/16"
+      nexthop: "10.100.0.2"
+
+# {{cookiecutter.cloud_shortname}} demo high speed VLAN network name.
+{{cookiecutter.cloud_shortname}}_network_demo_hs_vlan_name: "demo-hs-vlan"
+
+# {{cookiecutter.cloud_shortname}} demo high speed VLAN network.
+{{cookiecutter.cloud_shortname}}_network_demo_hs_vlan:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_hs_vlan_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  provider_network_type: "vlan"
+  provider_physical_network: "physnet2"
+  shared: false
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_demo_hs_vlan }}"
+
+# {{cookiecutter.cloud_shortname}} demo high speed VLAN subnet.
+{{cookiecutter.cloud_shortname}}_subnet_demo_hs_vlan:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_hs_vlan_name }}"
+  project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  cidr: "10.2.0.0/24"
+  gateway_ip: "10.2.0.1"
+  allocation_pool_start: "10.2.0.2"
+  allocation_pool_end: "10.2.0.254"
+
+# {{cookiecutter.cloud_shortname}} demo InfiniBand network name.
+{{cookiecutter.cloud_shortname}}_network_infiniband_name: "infiniband"
+
+# {{cookiecutter.cloud_shortname}} demo InfiniBand network.
+{{cookiecutter.cloud_shortname}}_network_infiniband:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_infiniband_name }}"
+  project: "admin"
+  provider_network_type: "flat"
+  provider_physical_network: "physnet3"
+  shared: true
+  # Subnet configuration.
+  subnets:
+    - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_subnet_infiniband }}"
+
+# {{cookiecutter.cloud_shortname}} demo InfiniBand subnet.
+{{cookiecutter.cloud_shortname}}_subnet_infiniband:
+  name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_infiniband_name }}"
+  project: "admin"
+  cidr: "10.3.0.0/16"
+  enable_dhcp: false
+  allocation_pool_start: "10.3.0.1"
+  allocation_pool_end: "10.3.0.254"
+
+# List of routers in the {{cookiecutter.cloud_shortname}} demo project. Format is as required by the
+# stackhpc.os-networks role.
+{{cookiecutter.cloud_shortname}}_routers:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_router_provision }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_router_cleaning }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_router_inspection }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_router_demo }}"
+
+# {{cookiecutter.cloud_shortname}} bare metal provisioning router.
+{{cookiecutter.cloud_shortname}}_router_provision:
+  - name: "provision"
+    project: "admin"
+    interfaces:
+      - net: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+        subnet: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+        portip: "10.65.0.2"
+      - net: "provision-net"
+        subnet: "provision-net"
+        portip: "10.69.0.1"
+
+# {{cookiecutter.cloud_shortname}} bare metal cleaning router.
+{{cookiecutter.cloud_shortname}}_router_cleaning:
+  - name: "cleaning"
+    project: "admin"
+    interfaces:
+      - net: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+        subnet: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+        portip: "10.65.0.3"
+      - net: "cleaning-net"
+        subnet: "cleaning-net"
+        portip: "10.70.0.1"
+
+# {{cookiecutter.cloud_shortname}} bare metal inspection router.
+{{cookiecutter.cloud_shortname}}_router_inspection:
+  - name: "inspection"
+    project: "admin"
+    interfaces:
+      - net: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+        subnet: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_internal_name }}"
+        portip: "10.65.0.4"
+      - net: "inspection-net"
+        subnet: "inspection-net"
+        portip: "10.71.0.1"
+
+# {{cookiecutter.cloud_shortname}} demo router.
+{{cookiecutter.cloud_shortname}}_router_demo:
+  - name: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+    project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+    interfaces:
+      - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vlan_name }}"
+      - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_vxlan_name }}"
+      - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_hs_vlan_name }}"
+      - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_provider_name }}"
+    network: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_external_name }}"
+
+# List of security groups in the {{cookiecutter.cloud_shortname}} demo project. Format is as required by the
+# stackhpc.os-networks role.
+# FIXME: Security group rules cannot be assigned to another project, due to
+# https://github.com/ansible/ansible/issues/34467, and be created when another
+# group with the same name exists in a different project either, due to
+# https://github.com/ansible/ansible/issues/30292. These issues will be fixed
+# by https://github.com/ansible/ansible/pull/34472 when it is merged. Until
+# then, you can use the issue-34467 branch of the stackhpc ansible repo to
+# register groups (after uncommenting them):
+# https://github.com/stackhpc/ansible/tree/issue-34467.
+{{cookiecutter.cloud_shortname}}_security_groups: []
+  # Default security group for the {{cookiecutter.cloud_shortname}} demo project.
+  #- name: default
+  #  #project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+  #  rules:
+  #    # Allow ICMP (for ping, etc.).
+  #    - protocol: icmp
+  #    # Allow SSH.
+  #    - protocol: tcp
+  #      port_range_min: 22
+  #      port_range_max: 22
+
+###############################################################################
+# Configuration of nova flavors for {{cookiecutter.cloud_shortname}}.
+
+# List of nova flavors in the {{cookiecutter.cloud_shortname}} demo project. Format is as required by the
+# stackhpc.os-flavors role.
+{{cookiecutter.cloud_shortname}}_flavors:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_baremetal_A }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_tiny }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_small }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_medium }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_large }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_xlarge }}"
+
+# Bare metal compute node.
+{{cookiecutter.cloud_shortname}}_flavor_baremetal_A:
+  name: "baremetal-A"
+  ram: 65536
+  disk: 0
+  vcpus: 64
+  extra_specs:
+    "resources:CUSTOM_BAREMETAL_A": 1
+    "resources:VCPU": 0
+    "resources:MEMORY_MB": 0
+    "resources:DISK_GB": 0
+
+# Virtual machine flavors.
+{{cookiecutter.cloud_shortname}}_flavor_m1_tiny:
+  name: "m1.tiny"
+  ram: 512
+  disk: 1
+  vcpus: 1
+
+{{cookiecutter.cloud_shortname}}_flavor_m1_small:
+  name: "m1.small"
+  ram: 2048
+  disk: 20
+  vcpus: 1
+
+{{cookiecutter.cloud_shortname}}_flavor_m1_medium:
+  name: "m1.medium"
+  ram: 4096
+  disk: 40
+  vcpus: 2
+
+{{cookiecutter.cloud_shortname}}_flavor_m1_large:
+  name: "m1.large"
+  ram: 8192
+  disk: 40
+  vcpus: 4
+
+{{cookiecutter.cloud_shortname}}_flavor_m1_xlarge:
+  name: "m1.xlarge"
+  ram: 16384
+  disk: 100
+  vcpus: 8
+
+###############################################################################
+# Software images for {{cookiecutter.cloud_shortname}}
+
+{{cookiecutter.cloud_shortname}}_images:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos_ib }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos_ohpc }}"
+
+# Latest CentOS image
+{{cookiecutter.cloud_shortname}}_image_centos:
+  name: "CentOS7.5"
+  elements:
+    - "centos7"
+    - "epel"
+    - "selinux-permissive"
+    - "dhcp-all-interfaces"
+    - "vm"
+  properties:
+    os_distro: "centos"
+    os_version: "7.5"
+
+# Latest CentOS image, with support for accessing the InfiniBand network.
+{{cookiecutter.cloud_shortname}}_image_centos_ib:
+  name: "CentOS7.5-IB"
+  elements:
+    - "centos7"
+    - "epel"
+    - "selinux-permissive"
+    - "dhcp-all-interfaces"
+    - "vm"
+    - "systemd-modules-load"
+  env:
+    DIB_SYSTEMD_MODULES_LOAD_CONTENT: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_systemd_modules_load_ipoib }}"
+    DIB_YUM_REPO_CONF: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_cloud_init_0_7_9_25_repo_file }}"
+  properties:
+    os_distro: "centos"
+    os_version: "7.5"
+
+# Latest CentOS image, with OpenHPC and support for accessing the InfiniBand network.
+{{cookiecutter.cloud_shortname}}_image_centos_ohpc:
+  name: "CentOS7.5-OpenHPC"
+  elements:
+    - "centos7"
+    - "epel"
+    - "openhpc"
+    - "selinux-permissive"
+    - "dhcp-all-interfaces"
+    - "vm"
+    - "systemd-modules-load"
+  env:
+    DIB_SYSTEMD_MODULES_LOAD_CONTENT: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_systemd_modules_load_ipoib }}"
+    DIB_YUM_REPO_CONF: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_cloud_init_0_7_9_25_repo_file }}"
+    DIB_OPENHPC_GRPLIST: "ohpc-base-compute ohpc-slurm-client 'InfiniBand Support'"
+    DIB_OPENHPC_PKGLIST: "lmod-ohpc mrsh-ohpc lustre-client-ohpc mvapich2-gnu-ohpc ntp"
+    DIB_OPENHPC_DELETE_REPO: "n"
+  properties:
+    os_distro: "centos"
+    os_version: "7.5"
+
+
+# This creates a git checkout in the local user's home directory
+{{cookiecutter.cloud_shortname}}_image_stackhpc_elements: "{{ '{{' }} ansible_env.PWD }}/stackhpc-image-elements"
+
+{{cookiecutter.cloud_shortname}}_image_git_elements:
+  - repo: "https://github.com/stackhpc/stackhpc-image-elements.git"
+    local: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_stackhpc_elements }}"
+
+# Path to include
+{{cookiecutter.cloud_shortname}}_image_elements:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_stackhpc_elements }}/elements"
+
+# Yum repository config file for cloud-init repo.
+# This contains a patched cloud-init package with support for configuring IP
+# over Infiniband interfaces defined in a config drive.
+{{cookiecutter.cloud_shortname}}_cloud_init_0_7_9_25_repo_file: "{{ '{{' }} playbook_dir }}/files/cloud-init-0.7.9-25.repo"
+
+# Systemd modules-load.d file content for loading IPoIB interfaces:
+{{cookiecutter.cloud_shortname}}_systemd_modules_load_ipoib: |
+  # Load the IP over IB module prior to running cloud-init --local.
+  ib_ipoib
+  # Load the Mellanox IB driver.
+  mlx4_ib

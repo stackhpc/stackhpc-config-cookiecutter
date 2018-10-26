@@ -1,0 +1,45 @@
+---
+###############################################################################
+# Configuration of OpenStack user environment for {{cookiecutter.cloud_longname}}.
+
+# Path to create virtualenv in which to install python dependencies.
+{{cookiecutter.cloud_shortname}}_venv: "{{ '{{' }} ansible_env.PWD }}/{{cookiecutter.cloud_shortname}}-config-venv"
+
+# List of OpenStack projects. Format is as required by the stackhpc.os-projects
+# role.
+{{cookiecutter.cloud_shortname}}_projects: []
+
+###############################################################################
+# Configuration of networks, subnets and routers for {{cookiecutter.cloud_longname}}.
+
+# List of networks in the {{cookiecutter.cloud_shortname}} project. Format is as required by the
+# stackhpc.os-networks role.
+{{cookiecutter.cloud_shortname}}_networks: []
+
+# List of routers in the {{cookiecutter.cloud_shortname}} project. Format is as required by the
+# stackhpc.os-networks role.
+{{cookiecutter.cloud_shortname}}_routers: []
+
+# List of security groups in the {{cookiecutter.cloud_shortname}} demo project. Format is as required by the
+# stackhpc.os-networks role.
+{{cookiecutter.cloud_shortname}}_security_groups: []
+
+###############################################################################
+# Configuration of nova flavors for {{cookiecutter.cloud_longname}}.
+
+# List of nova flavors in the {{cookiecutter.cloud_shortname}} project. Format is as required by the
+# stackhpc.os-flavors role.
+{{cookiecutter.cloud_shortname}}_flavors: []
+
+###############################################################################
+# Configuration of glance images for {{cookiecutter.cloud_longname}}.
+
+# List of glance images in the {{cookiecutter.cloud_shortname}} project. Format is as required by the
+# stackhpc.os-images role.
+{{cookiecutter.cloud_shortname}}_images: []
+
+# List of additional diskimage-builder elements to incorporate on the path
+{{cookiecutter.cloud_shortname}}_image_elements: []
+
+# List of diskimage-builder element git repos to pull
+{{cookiecutter.cloud_shortname}}_image_git_elements: []

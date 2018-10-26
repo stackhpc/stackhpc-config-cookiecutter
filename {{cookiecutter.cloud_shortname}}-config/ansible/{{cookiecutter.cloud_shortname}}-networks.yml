@@ -1,0 +1,13 @@
+---
+- name: Ensure {{cookiecutter.cloud_longname}} OpenStack networks exist
+  hosts: localhost
+  tags:
+    - networks
+  roles:
+    - role: stackhpc.os-networks
+      os_networks_venv: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_venv }}"
+      os_networks_auth_type: "{{ '{{' }} openstack_auth_type }}"
+      os_networks_auth: "{{ '{{' }} openstack_auth }}"
+      os_networks: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_networks }}"
+      os_networks_routers: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_routers }}"
+      os_networks_security_groups: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_security_groups }}"

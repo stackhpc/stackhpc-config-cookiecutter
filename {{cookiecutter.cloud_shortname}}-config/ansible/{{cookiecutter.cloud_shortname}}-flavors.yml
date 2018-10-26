@@ -1,0 +1,11 @@
+---
+- name: Ensure {{cookiecutter.cloud_longname}} OpenStack nova flavors exist
+  hosts: localhost
+  tags:
+    - flavors
+  roles:
+    - role: stackhpc.os-flavors
+      os_flavors_venv: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_venv }}"
+      os_flavors_auth_type: "{{ '{{' }} openstack_auth_type }}"
+      os_flavors_auth: "{{ '{{' }} openstack_auth }}"
+      os_flavors: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavors }}"
