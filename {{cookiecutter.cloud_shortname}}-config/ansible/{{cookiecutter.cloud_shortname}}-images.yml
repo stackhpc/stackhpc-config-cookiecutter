@@ -9,6 +9,7 @@
       os_images_cache: "{{ '{{' }} ansible_env.PWD }}/{{cookiecutter.cloud_shortname}}-config-image-cache"
       os_images_auth_type: "{{ '{{' }} openstack_auth_type }}"
       os_images_auth: "{{ '{{' }} openstack_auth }}"
+      os_images_cacert: "{{ '{{' }} openstack_cacert }}"
       os_images_list: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_images }}"
       os_images_elements: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_elements }}"
       os_images_git_elements: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_git_elements }}"

@@ -8,4 +8,5 @@
       os_flavors_venv: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_venv }}"
       os_flavors_auth_type: "{{ '{{' }} openstack_auth_type }}"
       os_flavors_auth: "{{ '{{' }} openstack_auth }}"
+      os_flavors_cacert: "{{ '{{' }} openstack_cacert }}"
       os_flavors: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavors }}"

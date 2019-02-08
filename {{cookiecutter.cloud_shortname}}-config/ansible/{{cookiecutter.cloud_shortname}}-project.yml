@@ -8,4 +8,5 @@
       os_projects_venv: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_venv }}"
       os_projects_auth_type: "{{ '{{' }} openstack_auth_type }}"
       os_projects_admin_auth: "{{ '{{' }} openstack_auth }}"
+      os_projects_cacert: "{{ '{{' }} openstack_cacert }}"
       os_projects: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_projects }}"
