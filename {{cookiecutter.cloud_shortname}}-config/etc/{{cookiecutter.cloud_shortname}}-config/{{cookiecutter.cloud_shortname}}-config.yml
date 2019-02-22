@@ -345,27 +345,19 @@
       - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_demo_provider_name }}"
     network: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_external_name }}"
 
-# List of security groups in the {{cookiecutter.cloud_shortname}} demo project. Format is as required by the
-# stackhpc.os-networks role.
-# FIXME: Security group rules cannot be assigned to another project, due to
-# https://github.com/ansible/ansible/issues/34467, and be created when another
-# group with the same name exists in a different project either, due to
-# https://github.com/ansible/ansible/issues/30292. These issues will be fixed
-# by https://github.com/ansible/ansible/pull/34472 when it is merged. Until
-# then, you can use the issue-34467 branch of the stackhpc ansible repo to
-# register groups (after uncommenting them):
-# https://github.com/stackhpc/ansible/tree/issue-34467.
-{{cookiecutter.cloud_shortname}}_security_groups: []
+# List of security groups in the {{cookiecutter.cloud_shortname}} demo project.
+# Format is as required by the stackhpc.os-networks role.
+{{cookiecutter.cloud_shortname}}_security_groups:
   # Default security group for the {{cookiecutter.cloud_shortname}} demo project.
-  #- name: default
-  #  #project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
-  #  rules:
-  #    # Allow ICMP (for ping, etc.).
-  #    - protocol: icmp
-  #    # Allow SSH.
-  #    - protocol: tcp
-  #      port_range_min: 22
-  #      port_range_max: 22
+  - name: default
+    project: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_demo_project.name }}"
+    rules:
+      # Allow ICMP (for ping, etc.).
+      - protocol: icmp
+      # Allow SSH.
+      - protocol: tcp
+        port_range_min: 22
+        port_range_max: 22
 
 ###############################################################################
 # Configuration of nova flavors for {{cookiecutter.cloud_shortname}}.
