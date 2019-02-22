@@ -1,4 +1,2 @@
-# Limit Ansible to <2.5, since the os_quota module is broken when a Cinder
-# endpoint is not available. See
-# https://github.com/ansible/ansible/issues/41240.
-ansible>=2.6.0
+# Use Ansible 2.7 which supports creating security groups for any project
+ansible>=2.7.0,<2.8.0
