@@ -1,6 +1,6 @@
 [cloud-init]
 name=cloud-init
 type=rpm-md
-baseurl=http://10.64.101.14:4120/cloud-init/centos/7.5.1804/cloud-init-0.7.9-25/x86_64/
+baseurl=https://stackhpc.github.io/cloud-init-repo/
 gpgcheck=0
 enabled=1
