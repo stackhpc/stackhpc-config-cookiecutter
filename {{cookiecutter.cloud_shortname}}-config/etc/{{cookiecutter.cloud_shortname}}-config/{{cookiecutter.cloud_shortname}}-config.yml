@@ -425,13 +425,25 @@
 # Software images for {{cookiecutter.cloud_shortname}}
 
 {{cookiecutter.cloud_shortname}}_images:
-  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos }}"
-  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos_ib }}"
-  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos_ohpc }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos7 }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos7_dib }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos7_ohpc }}"
+
+{{cookiecutter.cloud_shortname}}_image_centos7:
+  name: "CentOS7-1907"
+  image_url: "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2"
+  properties:
+    os_type: "linux"
+    os_distro: "centos"
+    os_version: "7.6.1810"
+    hw_scsi_model: "virtio-scsi"
+    hw_disk_bus: "scsi"
+    hw_vif_model: "virtio"
+    hw_vif_multiqueue_enabled: "true"
 
 # Latest CentOS image
-{{cookiecutter.cloud_shortname}}_image_centos:
-  name: "CentOS7.5"
+{{cookiecutter.cloud_shortname}}_image_centos7_dib:
+  name: "CentOS7.7"
   elements:
     - "centos7"
     - "epel"
@@ -439,29 +451,17 @@
     - "dhcp-all-interfaces"
     - "vm"
   properties:
+    os_type: "linux"
     os_distro: "centos"
-    os_version: "7.5"
-
-# Latest CentOS image, with support for accessing the InfiniBand network.
-{{cookiecutter.cloud_shortname}}_image_centos_ib:
-  name: "CentOS7.5-IB"
-  elements:
-    - "centos7"
-    - "epel"
-    - "selinux-permissive"
-    - "dhcp-all-interfaces"
-    - "vm"
-    - "systemd-modules-load"
-  env:
-    DIB_SYSTEMD_MODULES_LOAD_CONTENT: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_systemd_modules_load_ipoib }}"
-    DIB_YUM_REPO_CONF: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_cloud_init_0_7_9_25_repo_file }}"
-  properties:
-    os_distro: "centos"
-    os_version: "7.5"
+    os_version: "7.7.1908"
+    hw_scsi_model: "virtio-scsi"
+    hw_disk_bus: "scsi"
+    hw_vif_model: "virtio"
+    hw_vif_multiqueue_enabled: "true"
 
 # Latest CentOS image, with OpenHPC and support for accessing the InfiniBand network.
-{{cookiecutter.cloud_shortname}}_image_centos_ohpc:
-  name: "CentOS7.5-OpenHPC"
+{{cookiecutter.cloud_shortname}}_image_centos7_ohpc:
+  name: "CentOS7.7-OpenHPC"
   elements:
     - "centos7"
     - "epel"
@@ -477,9 +477,13 @@
     DIB_OPENHPC_PKGLIST: "lmod-ohpc mrsh-ohpc lustre-client-ohpc mvapich2-gnu-ohpc ntp"
     DIB_OPENHPC_DELETE_REPO: "n"
   properties:
+    os_type: "linux"
     os_distro: "centos"
-    os_version: "7.5"
-
+    os_version: "7.7.1908"
+    hw_scsi_model: "virtio-scsi"
+    hw_disk_bus: "scsi"
+    hw_vif_model: "virtio"
+    hw_vif_multiqueue_enabled: "true"
 
 # This creates a git checkout in the local user's home directory
 {{cookiecutter.cloud_shortname}}_image_stackhpc_elements: "{{ '{{' }} ansible_env.PWD }}/stackhpc-image-elements"
