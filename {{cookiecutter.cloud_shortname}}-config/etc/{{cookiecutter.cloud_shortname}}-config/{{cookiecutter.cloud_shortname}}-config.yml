@@ -430,12 +430,12 @@
   - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos7_ohpc }}"
 
 {{cookiecutter.cloud_shortname}}_image_centos7:
-  name: "CentOS7-1907"
-  image_url: "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2"
+  name: "CentOS7.8"
+  image_url: "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-2003.qcow2"
   properties:
     os_type: "linux"
     os_distro: "centos"
-    os_version: "7.6.1810"
+    os_version: "7.8.2003"
     hw_scsi_model: "virtio-scsi"
     hw_disk_bus: "scsi"
     hw_vif_model: "virtio"
@@ -443,7 +443,7 @@
 
 # Latest CentOS image
 {{cookiecutter.cloud_shortname}}_image_centos7_dib:
-  name: "CentOS7.7"
+  name: "CentOS7.8-DIB"
   elements:
     - "centos7"
     - "epel"
@@ -453,7 +453,7 @@
   properties:
     os_type: "linux"
     os_distro: "centos"
-    os_version: "7.7.1908"
+    os_version: "7.8.2003"
     hw_scsi_model: "virtio-scsi"
     hw_disk_bus: "scsi"
     hw_vif_model: "virtio"
@@ -461,7 +461,7 @@
 
 # Latest CentOS image, with OpenHPC and support for accessing the InfiniBand network.
 {{cookiecutter.cloud_shortname}}_image_centos7_ohpc:
-  name: "CentOS7.7-OpenHPC"
+  name: "CentOS7.8-OpenHPC"
   elements:
     - "centos7"
     - "epel"
@@ -479,7 +479,7 @@
   properties:
     os_type: "linux"
     os_distro: "centos"
-    os_version: "7.7.1908"
+    os_version: "7.8.2003"
     hw_scsi_model: "virtio-scsi"
     hw_disk_bus: "scsi"
     hw_vif_model: "virtio"
