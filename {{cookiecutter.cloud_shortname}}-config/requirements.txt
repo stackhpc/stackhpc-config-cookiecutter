@@ -1,2 +1,2 @@
-# Use Ansible 2.7 which supports creating security groups for any project
-ansible>=2.7.0,<2.8.0
+# Use Ansible 2.9 which supports setting MTU of Neutron networks
+ansible>=2.9.0,<2.10.0
