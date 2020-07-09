@@ -422,6 +422,23 @@
   vcpus: 8
 
 ###############################################################################
+# Configuration of nova host aggregates for {{cookiecutter.cloud_shortname}}.
+
+# List of nova host aggregates. Format is as required by the
+# stackhpc.os_host_aggregates role.
+
+{{cookiecutter.cloud_shortname}}_host_aggregates:
+  - "{{ {{cookiecutter.cloud_shortname}}_example_aggregate }}"
+
+{{cookiecutter.cloud_shortname}}_example_aggregate:
+  name: "example_aggregate"
+  hosts:
+    - host1
+    - host2
+  metadata:
+    type: example_cluster
+
+###############################################################################
 # Software images for {{cookiecutter.cloud_shortname}}
 
 {{cookiecutter.cloud_shortname}}_images:
@@ -479,7 +496,6 @@
   properties:
     os_distro: "centos"
     os_version: "7.5"
-
 
 # This creates a git checkout in the local user's home directory
 {{cookiecutter.cloud_shortname}}_image_stackhpc_elements: "{{ '{{' }} ansible_env.PWD }}/stackhpc-image-elements"
