@@ -38,7 +38,19 @@ Usage
 =====
 
 First, ensure that OpenStack authentication environment variables are set,
-typically by sourcing an OpenStack environment file.
+typically by sourcing an OpenStack environment file. If a Kayobe environment
+was already configured, you can use the following command:
+
+.. code-block::
+
+   $ source ${KOLLA_CONFIG_PATH}/public-openrc.sh
+
+If any Ansible variable is encrypted with Ansible Vault, make sure the
+``ANSIBLE_VAULT_PASSWORD_FILE`` environment variable is set:
+
+.. code-block::
+
+   $ export ANSIBLE_VAULT_PASSWORD_FILE=<path-to-vault-password-file>
 
 To configure OpenStack infrastructure:
 
