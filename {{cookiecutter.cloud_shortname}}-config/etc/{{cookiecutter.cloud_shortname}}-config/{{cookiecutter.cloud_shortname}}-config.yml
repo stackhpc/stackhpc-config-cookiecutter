@@ -428,7 +428,7 @@
 # stackhpc.os_host_aggregates role.
 
 {{cookiecutter.cloud_shortname}}_host_aggregates:
-  - "{{ {{cookiecutter.cloud_shortname}}_example_aggregate }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_example_aggregate }}"
 
 {{cookiecutter.cloud_shortname}}_example_aggregate:
   name: "example_aggregate"
