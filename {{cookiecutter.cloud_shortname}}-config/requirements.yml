@@ -4,3 +4,4 @@
 - src: stackhpc.os-networks
 - src: stackhpc.os-projects
 - src: stackhpc.os_host_aggregates
+- src: stackhpc.os-container-clusters

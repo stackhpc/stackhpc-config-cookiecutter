@@ -445,6 +445,7 @@
   - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos }}"
   - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos_ib }}"
   - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_centos_ohpc }}"
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_fedora_coreos_32 }}"
 
 # Latest CentOS image
 {{cookiecutter.cloud_shortname}}_image_centos:
@@ -497,6 +498,15 @@
     os_distro: "centos"
     os_version: "7.5"
 
+# Latest stable Fedora Coreos 32 for Magnum
+{{cookiecutter.cloud_shortname}}_image_fedora_coreos_32:
+  name: "FedoraCoreOS32"
+  type: "raw"
+  image_url: "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/32.20200824.3.0/x86_64/fedora-coreos-32.20200824.3.0-openstack.x86_64.qcow2.xz"
+  properties:
+    os_distro: "fedora-coreos"
+    os_version: "32"
+
 # This creates a git checkout in the local user's home directory
 {{cookiecutter.cloud_shortname}}_image_stackhpc_elements: "{{ '{{' }} ansible_env.PWD }}/stackhpc-image-elements"
 
@@ -519,3 +529,25 @@
   ib_ipoib
   # Load the Mellanox IB driver.
   mlx4_ib
+
+# List of magnum cluster templates.
+{{cookiecutter.cloud_shortname}}_container_clusters_templates:
+  - "{{ '{{' }} {{cookiecutter.cloud_shortname}}_container_clusters_template_k8s_fedora_coreos }}"
+
+# Kubernetes magnum cluster template.
+{{cookiecutter.cloud_shortname}}_container_clusters_template_k8s_fedora_coreos:
+  labels: "heat_container_agent_tag=ussuri-stable-1,kube_tag=v1.18.9,cloud_provider_tag=v1.18.2,monitoring_enabled=true,auto_scaling_enabled=true,auto_healing_enabled=true,auto_healing_controller=magnum-auto-healer,magnum_auto_healer_tag=latest,master_lb_floating_ip_enabled=true,cinder_csi_enabled=true,ingress_controller=octavia"
+  external-network: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_network_external.name }}"
+  master-flavor: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_medium.name }}"
+  flavor: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_flavor_m1_medium.name }}"
+  image: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_image_fedora_coreos_32.name }}"
+  name: "k8s-fedora-coreos-32"
+  coe: "kubernetes"
+  network-driver: "calico"
+  docker-storage_driver: "overlay2"
+  volume-driver: "cinder"
+  server-type: "vm"
+  master-lb-enabled:
+  floating-ip-enabled:
+  public:
+  dns-nameserver: "8.8.8.8"
