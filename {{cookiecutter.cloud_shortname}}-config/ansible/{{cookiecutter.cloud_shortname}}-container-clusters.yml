@@ -1,0 +1,12 @@
+---
+- name: Ensure {{cookiecutter.cloud_longname}} container clusters templates exist
+  hosts: localhost
+  tags:
+    - container-clusters-templates
+  roles:
+    - role: stackhpc.os-container-clusters
+      os_container_clusters_venv: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_venv }}"
+      os_container_clusters_auth_type: "{{ '{{' }} openstack_auth_type }}"
+      os_container_clusters_auth: "{{ '{{' }} openstack_auth }}"
+      os_container_clusters_cacert: "{{ '{{' }} openstack_cacert }}"
+      os_container_clusters_templates: "{{ '{{' }} {{cookiecutter.cloud_shortname}}_container_clusters_templates }}"

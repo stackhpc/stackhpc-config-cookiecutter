@@ -43,3 +43,10 @@
 
 # List of diskimage-builder element git repos to pull
 {{cookiecutter.cloud_shortname}}_image_git_elements: []
+
+###############################################################################
+# Configuration of container clusters templates for {{cookiecutter.cloud_longname}}.
+
+# List of clusters templates in the {{cookiecutter.cloud_shortname}} project. Format is as required by the
+# stackhpc.os-container-clusters role.
+{{cookiecutter.cloud_shortname}}_container_clusters_templates: []
