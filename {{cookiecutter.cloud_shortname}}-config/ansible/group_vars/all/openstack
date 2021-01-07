@@ -14,6 +14,7 @@ openstack_auth:
   user_domain_id: "{{ lookup('env', 'OS_USER_DOMAIN_ID') }}"
   project_domain_name: "{{ lookup('env', 'OS_PROJECT_DOMAIN_NAME') }}"
   user_domain_name: "{{ lookup('env', 'OS_USER_DOMAIN_NAME') }}"
+  project_id: "{{ lookup('env', 'OS_PROJECT_ID') }}"
   project_name: "{{ lookup('env', 'OS_PROJECT_NAME') }}"
   username: "{{ lookup('env', 'OS_USERNAME') }}"
   password: "{{ lookup('env', 'OS_PASSWORD') }}"
