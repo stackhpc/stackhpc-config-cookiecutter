@@ -4,3 +4,5 @@
 - import_playbook: {{cookiecutter.cloud_shortname}}-networks.yml
 - import_playbook: {{cookiecutter.cloud_shortname}}-flavors.yml
 - import_playbook: {{cookiecutter.cloud_shortname}}-images.yml
+- import_playbook: {{cookiecutter.cloud_shortname}}-host-aggregates.yml
+- import_playbook: {{cookiecutter.cloud_shortname}}-container-clusters.yml
