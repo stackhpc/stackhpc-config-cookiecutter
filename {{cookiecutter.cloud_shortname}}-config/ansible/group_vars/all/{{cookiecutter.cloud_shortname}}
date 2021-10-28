@@ -45,6 +45,13 @@
 {{cookiecutter.cloud_shortname}}_image_git_elements: []
 
 ###############################################################################
+# Configuration of nova host aggregates for {{cookiecutter.cloud_longname}}.
+
+# List of host aggregates in the {{cookiecutter.cloud_shortname}} project.
+# Format is as required by the stackhpc.os_host_aggregates role.
+{{cookiecutter.cloud_shortname}}_host_aggregates: []
+
+###############################################################################
 # Configuration of container clusters templates for {{cookiecutter.cloud_longname}}.
 
 # List of clusters templates in the {{cookiecutter.cloud_shortname}} project. Format is as required by the
