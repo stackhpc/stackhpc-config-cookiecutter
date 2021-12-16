@@ -59,8 +59,8 @@
   key_pairs: -1
   per_volume_gigabytes: -1
   ram: -1
-  secgroup_rules: -1
-  secgroups: -1
+  security_group: -1
+  security_group_rule: -1
   snapshots: -1
   volumes: -1
 
