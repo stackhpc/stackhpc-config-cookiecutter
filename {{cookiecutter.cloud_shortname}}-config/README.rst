@@ -26,12 +26,16 @@ packages. For example:
    $ pip install -U pip
    $ pip install -r requirements.txt
 
-Install Ansible role dependencies from Ansible Galaxy:
+Install Ansible role and collection dependencies from Ansible Galaxy:
 
 .. code-block::
 
-   $ ansible-galaxy install \
-       -p ansible/roles \
+   $ ansible-galaxy role install \
+        -p ansible/roles \
+        -r requirements.yml
+
+   $ ansible-galaxy collection install \
+       -p ansible/collections \
        -r requirements.yml
 
 Usage
