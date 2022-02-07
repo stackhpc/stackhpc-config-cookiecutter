@@ -1,7 +1,11 @@
 ---
-- src: stackhpc.os-flavors
-- src: stackhpc.os-images
-- src: stackhpc.os-networks
-- src: stackhpc.os-projects
-- src: stackhpc.os_host_aggregates
-- src: stackhpc.os-container-clusters
+roles:
+  - name: stackhpc.os-flavors
+  - name: stackhpc.os-images
+  - name: stackhpc.os-networks
+  - name: stackhpc.os-projects
+  - name: stackhpc.os_host_aggregates
+  - name: stackhpc.os-container-clusters
+
+collections:
+  - name: openstack.cloud
