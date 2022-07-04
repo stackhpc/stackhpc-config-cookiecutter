@@ -80,4 +80,4 @@ configuration parameter:
 
 .. code-block::
 
-   $ tools/{{cookiecutter.cloud_shortname}}-config -- --vault-password-file config-secret.vault 
+   $ tools/{{cookiecutter.cloud_shortname}}-config -- --vault-password-file config-secret.vault
