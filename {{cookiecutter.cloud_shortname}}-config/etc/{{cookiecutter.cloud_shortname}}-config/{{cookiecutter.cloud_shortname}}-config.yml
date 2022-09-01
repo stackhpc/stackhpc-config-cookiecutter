@@ -37,13 +37,11 @@
 {{cookiecutter.cloud_shortname}}_admin_roles:
   - admin
   - heat_stack_owner
-  - monasca-user
 
 # List of roles to apply to regular users in the {{cookiecutter.cloud_shortname}} demo project.
 {{cookiecutter.cloud_shortname}}_user_roles:
   - heat_stack_owner
   - observer
-  - monasca-read-only-user
 
 # Dict of quotas to set for projects with unlimited resource quotas
 {{cookiecutter.cloud_shortname}}_unlimited_quotas:
