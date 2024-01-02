@@ -1,3 +1,6 @@
+# DEPRECATED!
+## Please use https://github.com/stackhpc/openstack-config
+---
 # stackhpc-config-cookiecutter
 
 Cookiecutter template for Ansible playbooks and configuration of infrastructure
